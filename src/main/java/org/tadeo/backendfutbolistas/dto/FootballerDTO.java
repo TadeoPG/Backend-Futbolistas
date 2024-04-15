@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,7 +29,7 @@ public class FootballerDTO {
     @Size(min = 3, max = 50)
     private String lastName;
 
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @NotNull
     @NotEmpty

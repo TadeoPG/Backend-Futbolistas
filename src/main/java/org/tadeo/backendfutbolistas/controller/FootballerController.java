@@ -2,8 +2,11 @@ package org.tadeo.backendfutbolistas.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tadeo.backendfutbolistas.dto.FootballerDTO;
@@ -53,6 +56,16 @@ public class FootballerController {
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception {
         service.delete(id);
         return new ResponseEntity<>(NO_CONTENT);
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<Footballer>> findPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Footballer> pageResponse = service.findPage(pageRequest);
+        return new ResponseEntity<>(pageResponse, OK);
     }
 
     private FootballerDTO convertToDTO(Footballer entity) {
